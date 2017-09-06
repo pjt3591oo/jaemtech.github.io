@@ -14,4 +14,14 @@
 
 ### 2. EC2 생성 하기
 
-> 
+> 먼저 EC를 생성하기 위해 `Launch Instance` 버튼을 누릅니다 
+
+![img1](https://github.com/JaemTech/jaemtech.github.io/blob/master/img/ec2/1.png?raw=true)
+
+> 원하는 AMI를 선택 합니다. 만약 기존의 백업한 AMI가 있다면 `My AMIs`를 선택하세요
+
+![img2](https://github.com/JaemTech/jaemtech.github.io/blob/master/img/ec2/2.png?raw=true)
+
+> 원하는 Instance Type을 선택 하세요. Free tier는 t2.micro 입니다 
+
+![img3](https://github.com/JaemTech/jaemtech.github.io/blob/master/img/ec3/3.png?raw=true)
