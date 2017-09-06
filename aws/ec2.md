@@ -24,4 +24,23 @@
 
 > 원하는 Instance Type을 선택 하세요. Free tier는 t2.micro 입니다 
 
-![img3](https://github.com/JaemTech/jaemtech.github.io/blob/master/img/ec3/3.png?raw=true)
+![img3](https://github.com/JaemTech/jaemtech.github.io/blob/master/img/ec2/3.png?raw=true)
+
+> 인스턴스의 자세한 설정에서 Subnet이 기존의 서버에 맞는 Subnet ID인지 확인 하기 바랍니다. 
+
+![img4](https://github.com/JaemTech/jaemtech.github.io/blob/master/img/ec2/4.png?raw=true)
+
+> Storage 추가는 사이즈를 늘릴 일이 없다면 그대로 둡니다
+
+![img5](https://github.com/JaemTech/jaemtech.github.io/blob/master/img/ec2/5.png?raw=true)
+
+> 생성시 ssh Permission key는 기존에 공통으로 쓰는 키가 존재한다면 그것을 이용 하세요
+
+![img6](https://github.com/JaemTech/jaemtech.github.io/blob/master/img/ec2/9.png?raw=true)
+
+### 3. Security Group Inbound Rule 설정 하기 
+
+> Security Group의 Inbound는 방화벽을 통과하게 허용하는 IP 주소와 Port 번호를 지정합니다. API 서버의 경우 외부적으로 서버를 공개하지 않아도 될때 VPC 내 Subnet ip 만 허용하는 것을 추천합니다. 
+외부적으로 공개해야 하는 Application 서버의 경우는 해당하는 허용 IP를 모두 허용해야 하므로 실행한 서버의 Port만 제한해서 사용해야 합니다. 
+공통적으로 ssh 접속을 위한 22번 포트는 회사내 IP 대역과 주로 작업하는 IP대역만 추가하는 것을 권장 합니다 
+
