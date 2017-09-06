@@ -40,7 +40,11 @@
 
 ### 3. Security Group Inbound Rule 설정 하기 
 
-> Security Group의 Inbound는 방화벽을 통과하게 허용하는 IP 주소와 Port 번호를 지정합니다. API 서버의 경우 외부적으로 서버를 공개하지 않아도 될때 VPC 내 Subnet ip 만 허용하는 것을 추천합니다. 
-외부적으로 공개해야 하는 Application 서버의 경우는 해당하는 허용 IP를 모두 허용해야 하므로 실행한 서버의 Port만 제한해서 사용해야 합니다. 
-공통적으로 ssh 접속을 위한 22번 포트는 회사내 IP 대역과 주로 작업하는 IP대역만 추가하는 것을 권장 합니다 
+> Security Group의 Inbound는 방화벽을 통과하게 허용하는 IP 주소와 Port 번호를 지정합니다. 
+
+> API 서버의 경우 외부적으로 서버를 공개하지 않아도 될때 VPC 내 Subnet IP 만 허용하는 것을 추천합니다. 
+
+> 외부적으로 공개해야 하는 Application 서버의 경우는 해당하는 허용 IP를 모두 허용해야 하므로 실행한 서버의 Port만 제한해서 사용해야 합니다. 
+
+> 공통적으로 ssh 접속을 위한 22번 포트는 회사내 IP 대역과 주로 작업하는 IP대역만 추가하는 것을 권장 합니다 
 
