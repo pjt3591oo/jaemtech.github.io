@@ -12,9 +12,6 @@
  
  > [ec2 생성 가이드](https://jaemtech.github.io/aws/ec2)
 
-- DevOps
-
- > [jenkins 시작하기](https://jaemtech.github.io/jenkins/jenkins)
 
 ### Jekyll Themes 바꾸기
 
