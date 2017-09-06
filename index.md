@@ -20,4 +20,4 @@
 
 아래 경로를 클릭하면 원하는 github page 구간에서 원하는 탬플릿으로 변경 가능합니다. 
 
-[repository settings](https://github.com/JaemTech/jaemtech/settings)
+[repository settings](https://github.com/JaemTech/jaemtech.github.io/settings)
