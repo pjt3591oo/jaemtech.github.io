@@ -15,10 +15,11 @@
 # in the templates via {{ site.myvariable }}.
 title: JaemTech's Blog
 email: contact@jaem.me
+tagline: Jaem 기술 블로그
 description: > # this means to ignore newlines until "baseurl:"
   Jaem 기술 블로그
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "https://jaemtech.github.io/" # the subpath of your site, e.g. /blog
+url: "https://jaemtech.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
 
 github_username:  JaemTech
 
@@ -26,7 +27,7 @@ paginate: 10
 
 # Build settings
 markdown: kramdown
-theme: minima
+
 plugins:
   - jekyll-feed
 

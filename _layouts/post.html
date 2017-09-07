@@ -1,14 +1,8 @@
-<!doctype html>
-<html>
-{% include head.html %}
-<body>
-{% include header.html %}
-<section class="foreground markup-area">
+---
+layout: default
+---
+<h2>{{ page.title }}</h2>
     {{ content }}
-    <section class="comments">
-        {% include disqus.html %}
-    </section>
+<section class="comments">
+    {% include disqus.html %}
 </section>
-{% include footer.html %}
-</body>
-</html>
