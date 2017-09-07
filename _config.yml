@@ -18,8 +18,8 @@ email: contact@jaem.me
 tagline: Jaem 기술 블로그
 description: > # this means to ignore newlines until "baseurl:"
   Jaem 기술 블로그
-baseurl: "https://jaemtech.github.io/" # the subpath of your site, e.g. /blog
-url: "https://jaemtech.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "https://jaemtech.github.io" # the subpath of your site, e.g. /blog
+url: "https://jaemtech.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 github_username:  JaemTech
 
