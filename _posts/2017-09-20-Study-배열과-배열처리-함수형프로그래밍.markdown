@@ -1,0 +1,736 @@
+---
+layout: post
+title:  "자바스크립트 배열, 배열의 처리와 함수형 프로그래밍"
+date:   2017-09-20 14:00:34 +0900
+categories: Study
+---
+#2. 배열, 배열의 처리 와 함수형 프로그래밍
+
+## 목차
+
+1. 자바스크립트에서 배열
+
+2. 배열이 가지는 메소드
+
+3. 함수형 프로그래밍
+
+##1. 자바스크립트에서 배열
+
+`JavaScript Array 객체는 리스트와 비슷한 고수준 객체인 배열을 생성하는 데 사용되는 전역 객체입니다.`
+
+라고 MDN Web docs에서 첫줄에 언급됩니다. 이 한줄의 문장에서 우리는 **전역 객체**와 **리스트와 비슷한 고수준 객체인 배열** 에 눈길이 갑니다
+
+> **전역 객체**라 하면 언제 어디서든 내가 Array를 쓰기 위해 따로 라이브러리를 추가할 필요 없이 바로 사용 가능합니다.
+
+> 리스트와 비슷한 고수준 객체인 배열을 생성 한다는 말은 기본적으로 자료구조의 리스트를 따르기에 배열내 원소를 동적으로 할당, 해제 가능 하며 원소의 타입은 어떤 타입도 가능 합니다.
+
+책에선 자바스크립트의 배열의 기본적 사항을 다음과 같이 말하고 있습니다
+
+> - 순서가 있는 데이터 집합이며 0으로 시작하는 숫자형 인덱스를 사용합니다.
+> - 자바스크립트의 배열은 비균질적이여서 다른 타입의 요소나 객체, 다른 배열을 포함 할 수 있습니다
+> - 선언은 대괄호 혹은 생성자로 할당 합니다 . (생성자는 잘 쓰지 않습니다)
+> - 배열에 길이보다 큰 인덱스를 사용해서 요소를 할당하면 빈 구간은 undefined로 채워 집니다
+
+
+```javascript
+
+var globl_array = [];
+console.log(globl_array);
+console.log(typeof globl_array);
+function fun1() {
+  var local_array = new Array();
+  console.log(typeof local_array);
+}
+
+fun1();
+globl_array = [1,2,3,4];
+var new_array = ['문자열1', 2, fun1, globl_array, { key : 173, value : 'Obj Val'}];
+new_array;
+
+```
+
+배열도 객체이기 때문에 Properties 를 가지고 있습니다. 기본적인 데이터 필드는 length를 가지고 있고 정의는 다음과 같습니다
+
+> length 속성은 언제나 가장 큰 배열 요소의 인덱스보다 크며 unsigned, 32 비트 정수로 표현됩니다.
+
+
+```javascript
+
+var new_array = [1, 2, 3, 4, 5];
+new_array.length; // 5
+
+```
+
+배열도 객체입니다. 따라서 다음 장엔 배열이 가지는 메소드에 대해 알아보겠습니다.
+
+##2. 배열이 가지는 메소드
+
+자바스크립트 배열엔 정말 많은 메소드가 있습니다. JS 배열의 메소드를 보기전 배열이 가지는 기능에 대해 먼저 생각해 보면 좋겠다는 생각이 듭니다.
+잠깐 이나마 이것에 대해 얘기하는 시간을 가져봅시다.
+
+**Fact Check**
+> 1. 데이터의 저장, 삭제, 검색이 유용해야 합니다.
+> 2. 데이터의 순회가 쉬워야 합니다
+> 3. 배열내 저장된 데이터의 분류 및 조작이 쉬워야 합니다.
+
+위의 팩첵을 기반으로 Array 객체에서 제공하는 메소드를 정리해 보겠습니다. 다른 메소드도 같이 공유하면서 정리하면 좋을 듯 하여 링크도 남겨 놓겠습니다.
+
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/from
+
+1. 데이터 저장, 삭제, 검색
+
+`Array.prototype.push()`, `Array.prototype.pop()`, `Array.prototype.find()`, `Array.prototype.indexOf()`, `Array.prototype.some()`
+
+> **push** : 배열의 끝에 하나 혹은 그 이상의 데이터를 추가
+>> Syntax : `arr.push(element1, ..., elementN)`
+
+
+```javascript
+
+var jaem_developer = ['Steve', 'Jason', 'Dave', 'Jay.kim', 'Jacob'];
+jaem_developer.push('Benny','Jay.yu');
+jaem_developer;
+
+```
+
+> **pop** : 배열의 마지막 요소를 제거하고 그 요소를 반환
+>> Syntax : <code>arr.pop()</code>
+
+```javascript
+
+var jaem_developer = ['Steve', 'Jason', 'Dave', 'Jay.kim', 'Jacob', 'Benny','Jay.yu', 'Matthew'];
+jaem_developer.pop();
+jaem_developer;
+```
+
+> **find** : 해당 배열에 값을 하나 반환 합니다. 이때 콜백 함수로 인자를 받고 결과가 존재하면 배열안의 값을 반환 , 아니면 undefined 반환
+>> Syntax : <code>arr.find(callback[, thisArg])</code>
+```javascript
+
+var jaem_employee = [
+    {job : '개발자', name : 'steve'},
+    {job : '개발자', name : 'jason'},
+    {job : '개발자', name : 'dave'},
+    {job : '개발자', name : 'jay'},
+    {job : '개발자', name : 'jay.u'},
+    {job : '개발자', name : 'benny'},
+    {job : '개발자', name : 'jacob'},
+    {job : '재무', name : 'david'},
+    {job : '마켓팅', name : 'yun'},
+    {job : '디자이너', name : 'eugene'},
+    {job : '디자이너', name : 'sean'},
+    {job : '경영기획', name : 'daniel'},
+    {job : '경영기획', name : 'tony'},
+    {job : '디자이너', name : 'sunny'},
+]
+
+function queryFunc() {
+  /* 유진을 찾는 Call back 함수를 작성해 보세요 */
+}
+
+
+function isPrime(element, index, array) {
+  var start = 2;
+  while (start <= Math.sqrt(element)) {
+    if (element % start++ < 1) {
+      return false;
+    }
+  }
+  return element > 1;
+}
+
+console.log([4, 6, 8, 12].find(isPrime));
+console.log([4, 5, 8, 12].find(isPrime));
+
+```
+
+> **indexOf** : 배열에서 지정된 요소를 찾을 수 있는 첫 번째 *인덱스*를 반환하고 존재하지 않으면 -1을 반환합니다.
+>> Syntax : <code>arr.indexOf(searchElement), arr.indexOf(searchElement, fromIndex)</code>
+```javascript
+
+let o = { name : "Jerry"};
+let arr = [1, 5, "a", o, true, 5, [1, 2], "9"];
+
+console.log(arr.indexOf(5));                     // 1
+console.log(arr.lastIndexOf(5));                 // 5
+console.log(arr.indexOf("a"));                   // 2
+console.log(arr.lastIndexOf("a"));               // 2
+console.log(arr.indexOf({name: "Jerry"}));       // -1
+console.log(arr.indexOf(o));                     // 3
+console.log(arr.indexOf([1,2]));                 // -1
+console.log(arr.indexOf("9"));                   // 7
+console.log(arr.indexOf(9));                     // -1
+console.log(arr.indexOf("a", 5));                // -1
+console.log(arr.indexOf(5, 5));                  // 5
+console.log(arr.lastIndexOf(5, 4));              // 1
+console.log(arr.lastIndexOf(true, 3));           // -1
+
+```
+
+> **some** : 배열 내 일부 요소가 callback 함수에 의해 구현된 테스트를 통과하는지를 테스트합니다. 조건에 맞는 요소가 존재하면 true를 반환하고 존재하지않으면 false를 반환 합니다.
+>> Syntax : <code>arr.some(callback[, thisArg])</code>
+
+> **every** : 배열의 모든 요소가 callback함수로 구현된 테스트를 통과하는지를 테스트합니다.
+>> Syntax : <code>arr.every(callback[, thisArg])</code>
+
+```javascript
+
+const arr = [5, 7, 12, 15, 17];
+console.log(arr.some(x => x%2 === 0));
+console.log(arr.some(x => Number.isInteger(Math.sqrt(x))));
+
+console.log(arr.every(x => x%2 === 0));
+console.log(arr.every(x => Number.isInteger(Math.sqrt(x))));
+console.log(arr.every(x => Number.isInteger(x)));
+```
+
+2. 데이터 순회
+
+`Array.prototype.forEach()`, `Array.prototype.keys()`
+
+> **forEach** : 배열의 요소를 순회합니다.<br>
+>> Syntax : <code>arr.forEach(callback[, thisArg])</code> <br>
+>> Description : forEach 의 매개변수 인자 함수는 **function(currentValue, index, array)** 입니다.
+
+```javascript
+
+function logArrayElements(element, index, array) {
+  console.log('array[' + index + '] = ' + element);
+}
+[2, 5, , 9].forEach(logArrayElements);
+
+```
+
+> **keys** : 메서드는 배열의 각 인덱스에 대한 key들을 가지는 새로운 Array Iterator 객체를 반환합니다. <br>
+>> Syntax : <code>arr.keys()</code> <br>
+> Description : Object.keys() 메서드와는 다르게 빈 엘리멘트의 키도 반환을 합니다.
+
+```javascript
+var arr = ["a", , "c"];
+var sparseKeys = Object.keys(arr);
+var denseKeys = [...arr.keys()]; // var denseKeys = arr.keys();
+
+console.log(sparseKeys);
+console.log(denseKeys);
+```
+
+3. 데이터 분류 및 조작
+
+`Array.prototype.filter()`,`Array.prototype.map()`,`Array.prototype.reduce()`, `Array.prototype.reverse()`,
+`Array.prototype.sort()`
+
+> **filter** :  메소드는 제공된 함수로 구현된 테스트를 통과하는 모든 요소가 있는 새로운 배열을 만듭니다.
+>> Syntax : <code>var new_array = arr.filter(callback[, thisArg])</code> <br>
+>> Description : 배열 내에 각요소에 접근해 callback 함수의 참인 요소들을 모아 새로운 배열은 반환 합니다. 테스트에 통과 하지 못한 요소들은 건너 뛰며 새로운 배열에 포함되지 않습니다.
+
+```javascript
+function isBigEnough(value) {
+  return value >= 10;
+}
+var filtered = [12, 5, 8, 130, 44].filter(isBigEnough);
+// filtered 는 [12, 130, 44]
+```
+
+> **map** : 배열 내에 각 요소에 함수를 통과한 결과를 모아 새로운 배열을 만듭니다.
+>> Syntax : <code>arr.map(callback[, thisArg])</code> <br>
+>> Description : 값이 삭제되거나 아직 값이 할당/정의되지 않은 인덱스에 대해서는 호출되지 않습니다.
+
+```javascript
+var numbers = [1, 4, 9];
+var roots = numbers.map(Math.sqrt);
+// roots의 값은 [1, 2, 3]이 되지만, numbers는 그대로 [1, 4, 9]입니다.
+```
+
+```javascript
+var str = '12345';
+[].map.call(str, function(x) {
+  return x;
+}).reverse().join('');
+
+```
+
+> **reduce** : 배열의 왼쪽(Index : 0) 부터 오른쪽 (Index : length - 1) 까지 값을 지정한 함수의 연산을 거쳐 누적 결과를 계산 합니다.
+>> Syntax : <code>arr.reduce(callback[, initialValue])</code> <br>
+>> Parameter :
+>>> **callback** : 배열의 각 요소에 값을 실행할 함수 입니다. 인수 4개를 취하며, 각 인수는 다음과 같습니다 <br>
+    - previousValue : 이전 마지막 콜백 호출에서 반환된 값(초기 값이 있는 경우 initialValue 아니면 0) <br>
+    - currentVallue : 배열 내 현재 처리되고 있는 요소(element). <br>
+    - currentIndex : 배열 내 현재 처리되고 있는 요소의 인덱스. <br>
+    - array : reduce에 호출되는 배열 <br>
+   **initialValue** : (옵션) callback의 첫 호출에 첫 번째 인수로 사용하는 값.
+
+```javascript
+[0, 1, 2, 3, 4].reduce(function(previousValue, currentValue, currentIndex, array) {
+  return previousValue + currentValue;
+});
+```
+|previousValue | currentValue |	currentIndex |array | 반환값 |
+|:--------------:| :------------: | :------------: | :----: | :-----: |
+|1번째 호출 |	0 |	1 |	1 |	[0, 1, 2, 3, 4] | 1 |
+|2번째 호출 |	1 |	2 |	2 |	[0, 1, 2, 3, 4]	| 3   |
+|3번째 호출 |	3 |	3 |	3 |	[0, 1, 2, 3, 4]	| 6   |
+|4번째 호출 |	6 |	4 |	4 |	[0, 1, 2, 3, 4]	| 10  |
+
+```javascript
+var flattened = [[0, 1], [2, 3], [4, 5]].reduce(function(a, b) {
+  return a.concat(b);
+}, []);
+// flattened is [0, 1, 2, 3, 4, 5]
+```
+
+```javascript
+const words = ["Beachball", "Rodeo", "Angel", "Aardvark", "Xylophone", "November", "Chocolate","Papaya", "Uniform", "Joker", "Clover", "Bali"];
+
+const alphabetical = words.reduce((a, x) => {
+    if(!a[x[0]]) a[x[0]] = []; // 인덱싱 되지 않는 알파뱃이라면 인덱싱 하고 배열 생성
+    a[x[0]].push(x); // 인덱싱한 배열에 값 input
+    return a;
+}, {});
+
+alphabetical;
+
+```
+
+```javascript
+const data = [3.3, 5, 7.2, 12, 4, 6, 10.3];
+
+ const stats = data.reduce((a,x) => {
+     console.log(a);
+     a.N++;
+     let delta = x - a.mean;
+     a.mean += delta/a.N;
+     a.M2 += delta*(x - a.mean);
+     return a;
+ }, {N : 0, mean : 0, M2 : 0});
+
+ if(stats.N > 2){
+     stats.variance = stats.M2 / (stats.N - 1);
+     stats.stdev = Math.sqrt(stats.variance);
+ }
+stats;
+```
+```javascript
+const words = ["Beachball", "Rodeo", "Angel", "Aardvark", "Xylophone", "November", "Chocolate","Papaya", "Uniform", "Joker", "Clover", "Bali"];
+
+const longWords = words.reduce((a, w) => w.length > 6 ? a + " " + w : a, "").trim();
+
+```
+위의 예제는 filter와 join 으로도 구현 가능 합니다. 빠르게 구현 해 봅시다. 그리고 trim()을 쓴 이유를 다같이 생각해 보아요
+
+> **reverse** : 배열을 반전시킵니다. 첫 번째 요소는 마지막 요소가 되며 마지막 요소는 첫 번째 요소가 됩니다.
+>> Syntax : <code>arr.reverse()</code>
+
+```javascript
+var myArray = ['one', 'two', 'three'];
+myArray.reverse();
+
+console.log(myArray) // ['three', 'two', 'one']
+```
+
+> **sort** : 배열의 요소를 적절한 위치에 정렬하고 배열을 반환합니다.
+>> Syntax : <code>arr.sort() , arr.sort(compareFunction)</code> <br>
+>> Parameter :
+>>>**compareFunction** : 정렬 순서를 정의하는 함수를 지정합니다. 생략하면 배열은 각 요소의 문자열 변환에 따라 각 문자의 유니 코드 코드 포인트 값에 따라 정렬됩니다.
+
+>> Description : <br>
+**compareFunction**는 다음과 같은 결과를 반환 하면서 정력방식을 정합니다 .
+```javascript
+function compare(a, b) {
+  if (a is less than b by some ordering criterion) {
+    return -1;
+  }
+  if (a is greater than b by the ordering criterion) {
+    return 1;
+  }
+  // a must be equal to b
+  return 0;
+}
+```
+
+```javascript
+// 소트 할 배열
+var list = ['Delta', 'alpha', 'CHARLIE', 'bravo'];
+
+// 임시 배열은 위치 및 정렬 값이있는 객체를 보유합니다.
+var mapped = list.map(function(el, i) {
+  return { index: i, value: el.toLowerCase() };
+})
+
+var origin_mapped = Array.from(mapped);
+console.log(origin_mapped);
+
+// 축소 치를 포함한 매핑 된 배열의 소트
+mapped.sort(function(a, b) {
+  return +(a.value > b.value) || +(a.value === b.value) - 1;
+});
+
+console.log(mapped);
+// 결과 순서를 위한 컨테이너
+var result = mapped.map(function(el){
+  return list[el.index];
+});
+
+console.log(result);
+```
+
+> **join** : 배열의 모든 요소를 연결해 하나의 문자열로 만듭니다.
+>> Syntax : <code>str = arr.join([separator = ','])</code>
+
+```javascript
+const arr = [1, null, "hello", "world", true, undefined];
+delete arr[3];
+
+arr.join();
+arr.join('');
+arr.join(' -- ');
+
+
+const attributes = ["Nimble", "Perceptive", "Generous"];
+const html = '<ul><li>' + attributes.join('</li><li>') + '</li></ul>';
+
+```
+> join은 매개변수로 구분자 하나 받고 요소들을 하나로 합친 문자열을 반환 합니다. 이때 매개 변수가 생략되면 기본값은 쉼표이며 null, undefined는 모두 빈 문자열 취급합니다 .
+
+    자바스크립트 배열은 다른 언어에서 제공하는 배열보다 훨씬 간단하고 유연하며 강력한 기능들을 가진 것 같습니다.
+    데이터 처리가 중요해진 만큼 배열에서 제공하는 메소드들을 익혀 실무에 사용하면 훨씬 깔끔하고 좋은 코드들이 나올 것 같습니다.
+
+Array 메소드를 활용한 예제 : (숙제)
+
+    드디어 우리 플러그인이 여러 쇼핑몰에 삽입되어 로그 데이터를 수집하게 되었다 .
+    다니엘과 토니는 로그데이터를 활용한 통계치를 보고 싶어 한다... 뭐 해주자 자바스크립트의 배열 메소드를 활용하면 충분히 쉽게 구할수 있을거라 생각한다.
+    아래 쌓인 로그 데이터에서 추출한 데이터는 다음과 같다
+
+    [
+        {userId : 276, shopHost : "utg", payload : "buy"},
+        {userId : 277, shopHost : "brimmingo", payload : "buy"},
+        {userId : 245, shopHost : "chelper", payload : "cart"},
+        {userId : 154, shopHost : "chelper", payload : "buy"},
+        {userId : 245, shopHost : "utg", payload : "preview"},
+        {userId : 276, shopHost : "utg", payload : "buy"},
+        {userId : 282, shopHost : "utg", payload : "buy"},
+        {userId : 173, shopHost : "brimmingo", payload : "preview"},
+        {userId : 2184, shopHost : "chelper", payload : "cart"},
+        {userId : 2232, shopHost : "utg", payload : "buy"},
+        {userId : 221, shopHost : "utg", payload : "buy"},
+        {userId : 173, shopHost : "brimmingo", payload : "preview"},
+        {userId : 2184, shopHost : "chelper", payload : "buy"},
+        {userId : 2211, shopHost : "utg", payload : "preview"},
+        {userId : 221, shopHost : "utg", payload : "cart"},
+    ]
+
+    1. 우리 플러그인을 이용하고 물품구매한 고객의 수는 몇명 인가요?
+
+    2. 우리 플러그인을 사용하는 총 유저수는 몇명인가요?
+
+    3. 각 쇼핑몰마다 유저의 빈도 수를 배열로 만드세요
+
+    4. 각 payload 마다 유저의 빈도수를 배열로 만드세요
+
+
+
+##3. 함수형 프로그래밍
+
+- 함수형 프로그래밍 소개
+- 순수성
+- 흐름 기반 프로그래밍
+
+####함수형 프로그래밍 소개
+
+책에선 함수형 프로그래밍에 대해 한문장으로 정의하고 있습니다.
+
+    함수형 프로그래밍은 값을 추상화의 단위로 바꾸는 기능을 하며 결국 바뀐 값들로 소프트웨어 시스템이 만들어 진다
+
+이말은 **데이터의 흐름**에 따라 프로그래밍을 하면서 소프트웨어를 만들라는 이야기 입니다.
+
+함수형 프로그래밍은 소위 공장 조립 라인으로 비유가 많이 됩니다 . 각 함수별로 input 데이터와 output 데이터를 통해 소프트웨어가 만들어지는 형식이 공장에서 물건을 가공하고 제품을 만드는 것과 유사합니다.
+
+한마디로 함수형 프로그램은 데이터를 가공하는 기계입니다. 그렇다면 함수형 프로그래밍에서 가장 중요한 추상화 단위는 함수 단위 입니다. 함수는 그렇다면 어떻게 정의 할까요?
+
+    함수란 실행할 수 있고 올바로 동작하며 빨리 실행되도록 만들어라.
+
+버틀러 램슨이 제시한 함수 단위의 정의라 생각 하시면 됩니다. 다른 좋은 정의가 있다면 공유 하는것도 나쁘지 않은듯 합니다.
+
+
+이제 parseAge라는 함수를 만들면서 추상화 단위에 대해 생각해 볼건데 먼저 parseAge 함수를 추상적으로 정의 했을때 필요한 기능들을 생각해 봅시다.
+
+네 뭐 간단합니다. 입력받은 데이터를 Integer 로 환산해서 전달하면 됩니다.
+
+```javascript
+function parseAge(age) {
+  if(!_.isString(age)) throw new Error("Expecting a string");//age는 string
+  var a;
+
+  console.log("Attempting to parse an age"); //log
+
+  a = parseInt(age, 10); // core function
+
+  if(_.isNaN(a)){ // result check
+      console.log(["Could not parse age :", age].join(' '));
+      a = 0;
+  }
+
+  return a;
+}
+```
+위 함수로도 충분히 우리가 원하는 함수를 구현 했지만 parseAge라는 함수 내에 흐름을 보면 에러, 경고, 정보를 보여주는 것들도 함수로 추상화해 구현 가능합니다.
+
+```javascript
+function fail(thing) {
+    throw new Error(thing);
+}
+
+function warn(thing) {
+    console.log(["WARNING:", thing].join(' '));
+}
+
+function note() {
+    console.log(["NOTE:", thing].join(' '));
+
+}
+
+//위 세개의 함수를 이용해 parseAge를 다시 구현 하면
+
+function parseAge(age) {
+    if(!_.isString(age)) fail("Expecting a string");
+
+    var a;
+
+    note("Attempting to parse an age");
+
+    a = parseInt(age, 10);
+
+    if(_.isNaN(a)){
+        warn(["Could not parse age :", age].join(' '));
+        a = 0;
+    }
+
+    return a;
+}
+```
+
+이런 식으로 함수를 쪼개면 기능간의 종속성이 줄어들고 각 함수 단위 별로 테스트 가능해 디버깅에 유리할 것 같다는 생각이 듭니다.
+
+함수형 프로그래밍도 객체 지향에서 기본인 캡슐화를 클로저로 제공합니다. 클로저로 데이터를 은닉하면 객체가 제공하는 메서드 외엔 접근이 힘들어 외부에서 데이터 접근을 제한 할 수 있습니다.
+
+
+####순수성
+
+함수의 순수성이란 자신의 제어 밖의 어떤 변수를 바꾸거나 반환하거나 의존하지 않는 함수 입니다. 순수한 함수의 특징은 다음과 같습니다
+
+- 오직 인자만을 이용해서 계산 결과가 만들어집니다.
+- 외적 요소에 영향을 받는 데이터에 의존하지 않습니다.
+- 자신의 바디 외부의 상태를 변화 시킬수 없는 구조입니다.
+
+순수 함수의 예로 배열의 n번째 요소를 반환하는 함수를 만들어 봅시다.
+
+```javascript
+//실패시 에러 처리 함수
+function fail(thing) {
+    throw new Error(thing);
+}
+//문자열인지 배열인지 검사하는 함수
+function isIndexed(data) {
+    return _.isArray(data) || _.isString(data);
+}
+
+function nth(a, index) {
+    if (!_.isNumber(index)) fail("Expecting a number as the index");
+    if (!isIndexed(a)) fail("Not supported on non-indexed type");
+    if ((index < 0 || (index > a.length - 1)))
+        fail("Index value is out of bounds");
+
+    return a[index];
+}
+
+```
+
+위의 nth 함수는 오직 인자를 이용해 계산 결과가 만들어 집니다. 그리고 외적 요소에 영향을 받는 데이터에 의존하지 않고 자신의 외부 상태를 변화시킬수도 없는 구조이지요.
+이 함수를 이용해 새로운 순수 함수인 second 를 만들어 보겠습니다.
+
+```javascript
+function second(a) {
+    return nth(a, 1);
+}
+```
+
+RESTful 형식을 따르는 아키텍처와 API가 점점 많아지면서 멱등 개념도 관심을 받고 있답니다. 멱등이란 어떤 동작을 여러 번 실행한 결과가 한번 실행한 결과가 같은 상황을 가르킵니다.
+
+멱등은 순수성과 관련이 있고 공식적으론 다음 조건을 만족 합니다.
+
+<code>someFun(arg) == _.compose(someFun, someFun)(arg);</code>
+
+그렇담 우리가 위에서 만든 second 함수는 멱등 함수일까요?
+
+```javascript
+var a = [1, [10, 20, 30], 3];
+
+var secondTwice = _.compose(second, second);
+
+second(a) === secondTwice(a);
+
+```
+
+
+그렇다면 멱등함수는 어떤것이 있을까요? 대표적으로 Math.abs는 멱등입니다.
+
+<code>Math.abs(Math.abs(-42))</code>
+
+이제 함수의 순수성을 통해 순수한 함수를 만드는 법과 조립하는 예인 멱등관계를 알아 봤습니다. 함수형 파이프 라인은 _.compose를 이용한 함수 조립과 밀접한 관련이 있습니다.
+이를 바탕으로 흐름에 기반한 프로그래밍에 대해 알아 보는 시간을 가져봅시다.
+
+####흐름 기반 프로그래밍
+
+- 체이닝
+
+```javascript
+function createPerson() {
+    var firstName = '';
+    var lastName = '';
+    var age = 0;
+
+    return {
+        setFirstName : function(fn) {
+            firstName = fn;
+            return this;
+        },
+        setLastName : function(ln) {
+            lastName = ln;
+            return this;
+        },
+        setAge : function(a) {
+            age = a;
+            return this;
+        },
+        toString : function() {
+            return [firstName, lastName, age].join(' ');
+        }
+    };
+
+  createPerson()
+    .setFirstName("Mike")
+    .setLastName("Fogus")
+    .setAge(18)
+    .toString();
+}
+```
+
+채이닝은 말그대로 함수의 실행을 순차적으로 엮어 싫행 하는 패턴 입니다. 위에 코드는 단순히 값을 저장 하고 출력하는 예제 입니다. 부지런히 실행 해도 상관 없죠.
+
+하지만 저 위에 함수 하나 하나가 비동기적 실행을 한다면 어떻게 될까요? 물론 순차적으로 함수가 실행되는 것은 보장 되지만 첫 번째 함수가 끝나서 결과를 가져올때 까지 나머지 함수는 기다려야 합니다.
+굉장히 비효율적으로 실행 될 수도 있죠. 이를 개선하기 위해 우리는 게으른 체인을 생각하게 됩니다.
+
+```javascript
+function LazyChain(obj) {
+    this.calls = [];
+    this.target = obj;
+
+    LazyChain.prototype.invoke = function(methodName /*, args */) {
+        var args = _.rest(arguments);
+
+        this.calls.push(function(target) {
+            var meth = target[methodName];
+
+            return meth.apply(target, args);
+        });
+
+        return this;
+    }
+};
+
+new LazyChain([2,1,3]).invoke('sort').calls;
+```
+LazyChain#invoke 함수는 문자열로 된 메서드 명과 이들 메서드에 제공할 추가 인자를 받습니다 실제 메서드 호출을 클로저로 감싸서 calls 배열에 추가합니다.
+
+이렇게 나중에 실행할 수 있도록 어떤 동작을 감싸는 함수를 thunk라 부릅니다.
+
+성크는 누군가가 호출해 주기를 기다립니다. 위의 코드에서 `new LazyChain([2,1,3]).invoke('sort').calls[0]([2,1,3]);`
+을 호출 하지 않으면 실행 되지 않습니다.
+
+그럼 calls에 등록된 함수들을 강제로 실행 시키는 함수 force를 만들어 추가하겠습니다.
+
+```javascript
+function LazyChain(obj) {
+    this.calls = [];
+    this.target = obj;
+
+    LazyChain.prototype.invoke = function(methodName /*, args */) {
+        var args = _.rest(arguments);
+
+        this.calls.push(function(target) {
+            var meth = target[methodName];
+
+            return meth.apply(target, args);
+        });
+
+        return this;
+    }
+
+    LazyChain.prototype.force = function() {
+        return _.reduce(this.calls, function(target, thunk) {
+            return thunk(target);
+        }, this.target);
+    }
+};
+
+new LazyChain([2,1,3])
+    .invoke('concat', [8,5,7,6])
+    .invoke('sort')
+    .invoke('join', ' ')
+    .force();
+```
+
+LazyChain의 예제를 봤듯이 함수의 실행을 저장했다가 나중에 필요할 때 실행하는 방법으로 동작을 저장해 두는 것을 보았습니다.
+이는 프로미스로 가는 중요한 단계인 듯 합니다.
+
+프로미스에 대해 잠깐 다뤄 보도록 하겠습니다.
+
+```javascript
+
+var Promise = require('promise');
+
+var asyncfunction1 = function (param) {
+    return new Promise(function (fullfilled, rejected) {
+        setTimeout(
+            function () {
+                fullfilled('result 1:' + param);
+            }, 1000);
+    });
+}
+
+var asyncfunction2 = function (param) {
+    return new Promise(function (fullfilled, rejected) {
+        setTimeout(
+            function () {
+                fullfilled('result 2:' + param);
+            }, 1000);
+    });
+}
+
+var asyncfunction3 = function (param) {
+    return new Promise(function (fullfilled, rejected) {
+        setTimeout(
+            function () {
+                fullfilled('result 3:' + param);
+            }, 1000);
+    });
+}
+
+
+var promise = asyncfunction1(' terry ');
+
+promise
+    .then(asyncfunction2)
+    .then(asyncfunction3)
+    .then(console.log);
+
+//출처: http://bcho.tistory.com/1086 [조대협의 블로그]
+```
+
+함수형 프로그래밍은 데이터의 흐름에 초점을 맞춘 프로그래밍 입니다.
+
+그리고 자바스크립트로도 충분히 함수형 프로그래밍은 가능합니다. 또 객체지향도 가능하지요.
+
+이 두 패러다임을 하나 선택하다기 보다는 제 생각엔 때와 장소에 맞게 적절하게 혼합해서 사용하면 정말 강력한 무기가 될 듯 합니다
+
+
+
