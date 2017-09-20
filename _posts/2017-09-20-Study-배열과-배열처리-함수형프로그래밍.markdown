@@ -105,6 +105,7 @@ jaem_developer;
 
 > **find** : 해당 배열에 값을 하나 반환 합니다. 이때 콜백 함수로 인자를 받고 결과가 존재하면 배열안의 값을 반환 , 아니면 undefined 반환
 >> Syntax : <code>arr.find(callback[, thisArg])</code>
+
 ```javascript
 
 var jaem_employee = [
@@ -146,6 +147,7 @@ console.log([4, 5, 8, 12].find(isPrime));
 
 > **indexOf** : 배열에서 지정된 요소를 찾을 수 있는 첫 번째 *인덱스*를 반환하고 존재하지 않으면 -1을 반환합니다.
 >> Syntax : <code>arr.indexOf(searchElement), arr.indexOf(searchElement, fromIndex)</code>
+
 ```javascript
 
 let o = { name : "Jerry"};
@@ -264,6 +266,7 @@ var str = '12345';
   return previousValue + currentValue;
 });
 ```
+
 |previousValue | currentValue |	currentIndex |array | 반환값 |
 |:--------------:| :------------: | :------------: | :----: | :-----: |
 |1번째 호출 |	0 |	1 |	1 |	[0, 1, 2, 3, 4] | 1 |
@@ -309,12 +312,14 @@ const data = [3.3, 5, 7.2, 12, 4, 6, 10.3];
  }
 stats;
 ```
+
 ```javascript
 const words = ["Beachball", "Rodeo", "Angel", "Aardvark", "Xylophone", "November", "Chocolate","Papaya", "Uniform", "Joker", "Clover", "Bali"];
 
 const longWords = words.reduce((a, w) => w.length > 6 ? a + " " + w : a, "").trim();
 
 ```
+
 위의 예제는 filter와 join 으로도 구현 가능 합니다. 빠르게 구현 해 봅시다. 그리고 trim()을 쓴 이유를 다같이 생각해 보아요
 
 > **reverse** : 배열을 반전시킵니다. 첫 번째 요소는 마지막 요소가 되며 마지막 요소는 첫 번째 요소가 됩니다.
@@ -334,6 +339,7 @@ console.log(myArray) // ['three', 'two', 'one']
 
 >> Description : <br>
 **compareFunction**는 다음과 같은 결과를 반환 하면서 정력방식을 정합니다 .
+
 ```javascript
 function compare(a, b) {
   if (a is less than b by some ordering criterion) {
@@ -389,6 +395,7 @@ const attributes = ["Nimble", "Perceptive", "Generous"];
 const html = '<ul><li>' + attributes.join('</li><li>') + '</li></ul>';
 
 ```
+
 > join은 매개변수로 구분자 하나 받고 요소들을 하나로 합친 문자열을 반환 합니다. 이때 매개 변수가 생략되면 기본값은 쉼표이며 null, undefined는 모두 빈 문자열 취급합니다 .
 
     자바스크립트 배열은 다른 언어에서 제공하는 배열보다 훨씬 간단하고 유연하며 강력한 기능들을 가진 것 같습니다.
@@ -472,6 +479,7 @@ function parseAge(age) {
   return a;
 }
 ```
+
 위 함수로도 충분히 우리가 원하는 함수를 구현 했지만 parseAge라는 함수 내에 흐름을 보면 에러, 경고, 정보를 보여주는 것들도 함수로 추상화해 구현 가능합니다.
 
 ```javascript
@@ -570,7 +578,6 @@ second(a) === secondTwice(a);
 
 ```
 
-
 그렇다면 멱등함수는 어떤것이 있을까요? 대표적으로 Math.abs는 멱등입니다.
 
 <code>Math.abs(Math.abs(-42))</code>
@@ -639,6 +646,7 @@ function LazyChain(obj) {
 
 new LazyChain([2,1,3]).invoke('sort').calls;
 ```
+
 LazyChain#invoke 함수는 문자열로 된 메서드 명과 이들 메서드에 제공할 추가 인자를 받습니다 실제 메서드 호출을 클로저로 감싸서 calls 배열에 추가합니다.
 
 이렇게 나중에 실행할 수 있도록 어떤 동작을 감싸는 함수를 thunk라 부릅니다.
